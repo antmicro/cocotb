@@ -25,6 +25,7 @@ int main(int argc, char** argv, char** env) {
         VerilatedVpi::callValueCbs();
         VerilatedVpi::callTimedCbs();
         VerilatedVpi::callCbs(cbReadWriteSynch);
+        VerilatedVpi::callValueCbs();
         main_time++;
     }
 
