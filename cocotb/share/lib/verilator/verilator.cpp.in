@@ -19,6 +19,8 @@ int main(int argc, char** argv, char** env) {
 
     vlog_startup_routines_bootstrap();
     VerilatedVpi::callCbs(cbStartOfSimulation);
+    VerilatedVpi::callCbs(cbReadWriteSynch);
+    VerilatedVpi::callValueCbs();
 
     while (!Verilated::gotFinish()) {
         top->eval();
