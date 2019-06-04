@@ -24,7 +24,7 @@ vpiHandle vpi_register_systf(p_vpi_systf_data)
 
 int main(int argc, char** argv, char** env) {
     Verilated::commandArgs(argc, argv);
-    V%TOPLEVEL%* top = new V%TOPLEVEL%("COCOTB_%TOPLEVEL%");
+    V%TOPLEVEL%* top = new V%TOPLEVEL%("BYPASSTOP_%TOPLEVEL%");
 
     vlog_startup_routines_bootstrap();
     VerilatedVpi::callCbs(cbStartOfSimulation);
