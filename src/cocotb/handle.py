@@ -1388,17 +1388,19 @@ class LogicArrayObject(
         # and this object needs to support multi-dimensional packed arrays.
         return self._handle.get_num_elems()
 
-    def __getitem__(self, key: int) -> LogicObject:
-        try:
-            return cast("LogicObject", self._sub_handles[key])
-        except KeyError:
-            pass
-        handle = self._handle.get_handle_by_index(key)
-        if handle is None:
-            raise IndexError(f"{self._path} contains no object at index {key}")
-        sub = LogicObject(handle, f"{self._path}[{key}]")
-        self._sub_handles[key] = sub
-        return sub
+    def __getitem__(self, index: int) -> LogicObject | LogicArrayObject:
+        if isinstance(index, slice):
+            raise TypeError("Slice indexing is not supported")
+        if index in self._sub_handles:
+            return self._sub_handles[index]
+        new_handle = self._handle.get_handle_by_index(index)
+        if not new_handle:
+            raise IndexError(f"{self._path} contains no object at index {index}")
+        path = self._path + "[" + str(index) + "]"
+        self._sub_handles[index] = cast(
+            "ChildObjectT", _make_sim_object(new_handle, path)
+        )
+        return self._sub_handles[index]
 
     @cached_property
     def _min_val(self) -> int:

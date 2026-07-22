@@ -66,12 +66,11 @@ async def test_packed_struct_setting(dut):
 
 # GHDL unable to access record signals (gh-2591)
 # Icarus doesn't support structs (gh-2592)
-# Verilator doesn't support structs (gh-1275)
 # Riviera-PRO does not discover inout_if correctly over VPI (gh-3587, gh-3933)
 @cocotb.test(
     expect_error=(
         AttributeError
-        if SIM_NAME.startswith(("icarus", "ghdl", "verilator"))
+        if SIM_NAME.startswith(("icarus", "ghdl"))
         or (SIM_NAME.startswith("riviera") and LANGUAGE == "verilog")
         else ()
     )
